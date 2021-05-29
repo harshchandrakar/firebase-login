@@ -5,7 +5,7 @@ function Userdetail({ username, pic }) {
   return (
     <div className="userdetail">
       <h1 className="user">{username}</h1>
-      <img className="user-pic" src={pic} alr="user profile" />
+      <img className="user-pic" src={pic} alt="user profile" />
     </div>
   );
 }
