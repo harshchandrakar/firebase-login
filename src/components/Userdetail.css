@@ -1,0 +1,12 @@
+.user {
+  color: white;
+  text-transform: capitalize;
+}
+.userdetail {
+  text-align: center;
+}
+.user-pic {
+  height: 300px;
+  object-fit: contain;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
