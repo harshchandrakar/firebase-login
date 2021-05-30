@@ -5,7 +5,9 @@ import Modal from "@material-ui/core/Modal";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, Input } from "@material-ui/core";
 import UserDetail from "./components/Userdetail";
-
+import firebase from "firebase";
+import "firebase/auth";
+import { GoogleLoginButton } from "react-social-login-buttons";
 function rand() {
   return Math.round(Math.random() * 20) - 10;
 }
@@ -42,6 +44,8 @@ function App() {
   const [user, setUser] = useState(null);
   const [img, setImg] = useState("");
 
+  var provider = new firebase.auth.GoogleAuthProvider();
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
       if (authUser) {
@@ -74,6 +78,25 @@ function App() {
       .signInWithEmailAndPassword(email, password)
       .catch((err) => alert(err.message));
     setOpenSignIn(false);
+  };
+  const gsignup = (event) => {
+    event.preventDefault();
+    firebase
+      .auth()
+      .signInWithPopup(provider)
+      .then((result) => {
+        /** @type {auth.OAuthCredential} */
+        var credential = result.credential;
+
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        var token = credential.accessToken;
+        // The signed-in user info.
+        var user = setUser(result.user);
+        // ...
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -120,6 +143,9 @@ function App() {
           <form>
             <div className="app__signup">
               <center>
+                <button className="google" type="submit" onClick={gsignup}>
+                  <i className="fab fa-google"></i>
+                </button>
                 <Input
                   type="email"
                   placeholder="Email"
